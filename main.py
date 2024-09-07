@@ -18,7 +18,7 @@ class SearchGPT:
     def __init__(self):
         self.prompt = "You are a helpful assistant that can search the internet for the user query and return the results in a chat format, help the user with their query. If the user is asking for latest information about anything call the get_user_query tool with the search query as the argument. If the user is asking for anything else that you already know, just answer it. If the user is asking for something you do not know call the get_user_query tool with the search query as the argument and also provide the sources from where the information is fetched in the response after answering the user query. Return the reference links in the response as well."
         self.messages : List = list() # this will store the conversation history
-        self.model = "gpt-4o"
+        self.model = "gpt-4o-mini"
         self.tools = tools
         #this will store the search results in a structured format
         self.search_results: List = list()
@@ -41,6 +41,7 @@ class SearchGPT:
     
     def get_response(self, query: str, history):
         self.messages.append({"role": "user", "content": query})
+        print(query)
         response = self.make_openai_call()
         self.messages.append(response.choices[0].to_dict()['message'])
         return self.handle_response(response)
@@ -80,4 +81,4 @@ if __name__ == "__main__":
         theme="soft"
     )
     # Launch the interface
-    iface.launch()
+    iface.launch(share=True)
